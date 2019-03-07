@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UI原型图文件管理系统</title>
+    <style>
+        body{background-color: darkgray;}
+        ul, li { list-style:none; padding:0; }
+        li { float:left; width: 48%; line-height:30px; margin-left:10px; margin-bottom:10px; }
+        .file_content{margin-left: 10px; margin-top: 20px;}
+
+    </style>
+    <script type="text/javascript" src="/static/jquery-1.12.4.min.js"></script>
+    <script>
+        function a(event) {
+            var val = $(event).find('option:selected').attr('data-name');
+            location.href = '/list/dir=./ui/'+val +'/';
+        };
+    </script>
+</head>
+<body>
+<div>
+    <h1 style="text-align: center" >UI原型图文件管理系统</h1>
+</div>
+<hr>
+
+<div>
+    <h2 style="color: aqua">文件列表：</h2>
+    <label style="margin-left: 46px">所属项目：</label>
+            <select onChange="a(this)" name="SELECT" id="sect_item" style="width:220px;height: 25px">
+            {%for k, v in datas.items()%}
+                <option data-name="{{v}}" value={{k}} {%if v == dirs%}selected="selected"{%end%}>{{v}}</option>
+            {%end%}
+            </select>
+    <div class="file_content">
+共<span style="color: #c9302c">{{len(con_list)}}</span>条数据
+
+     <ul>
+    {%for temp in con_list%}
+        <li>
+          <a href="http://{{ip}}:5556/{{dirs}}/{{temp}}/{{temp}}/start.html" target="_blank">{{temp}}</a>
+        </li>
+
+    {%end%}
+        </ul>
+         </div>
+</div>
+
+
+
+
+</body>
+</html>

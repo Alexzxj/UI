@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UI原型图文件管理系统</title>
+    <link rel="shortcut" href="/favicon.ico" />
+    <style>
+        body{background-color: darkgray;}
+        ul, li { list-style:none; padding:0; }
+        li { float:left; width: 48%; line-height:30px; margin-left:10px; margin-bottom:10px; }
+        .btn-background{ color: #1890ff;
+    background-color: transparent;
+    border:1px #40a9ff solid;
+    text-shadow: none; width: 50px; height: 22px;}
+        .btn-leng{
+            width: 100px;
+        }
+
+    </style>
+    <script type="text/javascript" src="/static/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/static/FileUI.js"></script>
+    <script>
+        $(document).ready( function(){
+             $("#projectContene").hide();
+        });
+    </script>
+</head>
+
+<body>
+<div>
+    <h1 style="text-align: center" >UI原型图文件管理系统</h1>
+</div>
+    <hr>
+    <div style="border: antiquewhite">
+        <h2 style="color: blue">上传文件：</h2>
+        <label style="margin-left: 10%; color: red">注：上传文件可选择所属项目，如没有所属项目，自己创建项目即可！</label>
+        <br><br>
+        <div id="projectContene">
+        <label style="margin-left: 10%">所属项目：</label>
+            <input type="text" id ="txtProject" name="project" maxlength="10" style="width:218px;height: 20px;">
+            <input type="button" value="确认" class="btn-background" onclick="FileUI.Action.saveProject()" />
+            <span name ="tip"></span>
+            <label id ="actionProject" name=""></label>
+            <label id ="current" name=""></label>
+        <br><br>
+            </div>
+        <form action='/' enctype="multipart/form-data" method='post' style="margin-left: 10%">
+        <label>所属项目：</label>
+            <select name="ST_TYPE" style="width:218px;height: 25px">
+            {%for k, v in datas.items()%}
+                <option value={{k}} {%if v == dirs%}selected="selected"{%end%}>{{v}}</option>
+            {%end%}
+            </select>
+             <input type="button" value="新增" class="btn-background" onclick="FileUI.Action.addProject()" />
+             <input type="button" value="修改" class="btn-background" onclick="FileUI.Action.editProject()" />
+             <input type="button" value="删除" class="btn-background" onclick="FileUI.Action.delProject()" />
+             <input type="button" value="查看项目列表" class="btn-background btn-leng" onclick="FileUI.Action.listUIFile()" />
+             <input type="button" value="一键下载" class="btn-background btn-leng" onclick="FileUI.Action.downloadAllFile()" />
+            <br><br>
+
+        <input type='file' name='file' accept="application/zip"/>
+        <input type='submit' value='上传'/>
+        </form>
+    </div>
+<div style="text-align: center;margin-top: 50px">
+        <a href="/" style="margin-bottom: auto;color: blueviolet;" >上传文件</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/list/dir=./ui/" style="margin-bottom: auto;color: blueviolet;">文件列表</a>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="/history/dir=./file/" style="margin-bottom: auto;color: blueviolet;">历史版本</a>
+</div>
+
+<h2 style="color:aqua;">文件列表</h2>共<span style="color: #c9302c">{{len(con_list)}}</span>条数据
+{%if len(con_list) > 0%}
+   <ul>
+       <!--{% set i = 1 %}-->
+       {%for temp in con_list%}
+           <li>
+               <a href="http://{{ip}}:5556/{{dirs}}/{{temp}}/{{temp}}/start.html" target="_blank">{{temp}}</a>
+               <a href="javascript:void(0);" id="del" onclick="FileUI.Action.delUIFile(this)" name="{{dirs}}/{{temp}}/{{temp}}" style="color: #cd0a0a; margin-left: 10px;">删除</a>
+           </li>
+       <!--{%set i= i+1 %}-->
+       {%end%}
+   </ul>
+{%end%}
+</body>
+</html>
